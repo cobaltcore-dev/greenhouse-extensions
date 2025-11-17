@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: 2025 SAP SE or an SAP affiliate company
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: greenhouse.sap/v1alpha1
+kind: PluginDefinition
+metadata:
+  name: openstack-hypervisor-operator
+spec:
+  version: 0.1.4
+  displayName: OpenStack Hypervisor Operator
+  description: "Kubernetes operator to manage and automate the lifecycle of KVM hypervisor nodes within an OpenStack environment."
+  helmChart:
+    name: openstack-hypervisor-operator
+    repository: ghcr.io/cobaltcore-dev/openstack-hypervisor-operator
+    version: 0.1.4
