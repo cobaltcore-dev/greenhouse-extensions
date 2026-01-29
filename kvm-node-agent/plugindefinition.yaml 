@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: 2025 SAP SE or an SAP affiliate company
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: greenhouse.sap/v1alpha1
+kind: PluginDefinition
+metadata:
+  name: kvm-node-agent
+spec:
+  version: 0.1.8
+  displayName: KVM Node Agent
+  description: "KVM Node Agent to manage KVM hypervisor nodes within a Kubernetes environment."
+  helmChart:
+    name: kvm-node-agent
+    repository: oci://ghcr.io/cobaltcore-dev/charts
+    version: 0.1.8
+  options:
+    - name: controllerManager.manager.env.issuerName
+      description: "Issuer name for the KVM Node Agent certificates."
+      type: string
+      default: nova-hypervisor-agents-ca-issuer
+    - name: controllerManager.manager.env.nodeLabelFieldPath
+      description: "Field path to identify the node label for KVM nodes."
+      type: string
+      default: "metadata.labels['kubernetes.metal.cloud.sap/name']"
+    - name: controllerManager.manager.image.tag
+      description: "Container image tag for the KVM Node Agent."
+      type: string
+      default: latest
