@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2025 SAP SE or an SAP affiliate company
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: greenhouse.sap/v1alpha1
+kind: PluginDefinition
+metadata:
+  name: labels-injector
+spec:
+  version: 0.1.1
+  displayName: Labels Injector
+  description: "Injects predefined labels to pods by transporting them from nodes."
+  helmChart:
+    name: labels-injector
+    repository: oci://ghcr.io/cobaltcore-dev/charts
+    version: 0.1.1
+  options:
+    - name: controllerManager.manager.image.tag
+      description: "Container image tag for the KVM Node Agent."
+      type: string
+      default: latest
