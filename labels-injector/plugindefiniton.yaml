@@ -5,13 +5,13 @@ kind: PluginDefinition
 metadata:
   name: labels-injector
 spec:
-  version: 0.1.1
+  version: 0.1.4
   displayName: Labels Injector
   description: "Injects predefined labels to pods by transporting them from nodes."
   helmChart:
     name: labels-injector
     repository: oci://ghcr.io/cobaltcore-dev/charts
-    version: 0.1.1
+    version: 0.1.4
   options:
     - name: controllerManager.manager.image.tag
       description: "Container image tag for the KVM Node Agent."
