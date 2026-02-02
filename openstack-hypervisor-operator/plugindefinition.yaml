@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: 2025 SAP SE or an SAP affiliate company
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: greenhouse.sap/v1alpha1
+kind: PluginDefinition
+metadata:
+  name: openstack-hypervisor-operator
+spec:
+  version: 0.2.4
+  displayName: OpenStack Hypervisor Operator
+  description: "Manages OpenStack hypervisor nodes within a Kubernetes environment."
+  helmChart:
+    name: openstack-hypervisor-operator
+    repository: oci://ghcr.io/cobaltcore-dev/charts
+    version: 0.2.4
+  options:
+    - name: fullnameOverride
+      description: "Override the full name of the deployment."
+      type: string
+      default: hypervisor-operator
+    - name: controllerManager.manager.image.tag
+      description: "Container image tag for the KVM Node Agent."
+      type: string
+      default: latest
+    - name: controllerManager.manager.env.osUsername
+      description: "OpenStack username for the hypervisor operator."
+      type: string
+      default: nova
+    - name: controllerManager.manager.env.osUserDomainName
+      description: "OpenStack user domain name for the hypervisor operator."
+      type: string
+      default: Default
+    - name: controllerManager.manager.env.osProjectName
+      description: "OpenStack project name for the hypervisor operator."
+      type: string
+      default: service
+    - name: controllerManager.manager.env.osProjectDomainName
+      description: "OpenStack project domain name for the hypervisor operator."
+      type: string
+      default: Default
