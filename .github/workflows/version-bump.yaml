@@ -76,6 +76,12 @@ jobs:
             exit 0
           fi
           
+          # Check if version was already bumped in this PR
+          if git log --oneline origin/${{ github.base_ref }}..${{ github.head_ref }} | grep -q "chore(${{ matrix.folder }}): bump version"; then
+            echo "Version already bumped in this PR - skipping"
+            exit 0
+          fi
+          
           # Get current version
           currentVersion=$(yq .spec.version "${{ matrix.folder }}/plugindefinition.yaml")
           echo "Current version: $currentVersion"
@@ -120,7 +126,7 @@ jobs:
         if: steps.version-bump.outputs.new_version != ''
         run: |
           if [ -f "${{ matrix.folder }}/chart/values.yaml" ] && [ -f "${{ matrix.folder }}/chart/Chart.yaml" ]; then
-            IMAGE_TAG=$(yq .kvmExporter.image.tag "${{ matrix.folder }}/chart/values.yaml")
+            IMAGE_TAG=$(yq .${{ matrix.folder }}.image.tag "${{ matrix.folder }}/chart/values.yaml")
             if [ -n "$IMAGE_TAG" ]; then
               echo "Syncing appVersion to: $IMAGE_TAG"
               yq -i ".appVersion = \"$IMAGE_TAG\"" "${{ matrix.folder }}/chart/Chart.yaml"
