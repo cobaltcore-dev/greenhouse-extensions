@@ -1,0 +1,69 @@
+# SPDX-FileCopyrightText: 2025 SAP SE or an SAP affiliate company and cobaltcore-dev contributors
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: greenhouse.sap/v1alpha1
+kind: PluginDefinition
+metadata:
+  name: kvm-exporter
+spec:
+  version: 0.3.0
+  displayName: KVM Exporter
+  description: Metrics exporter for KVM hypervisors.
+  docMarkDownUrl: https://raw.githubusercontent.com/cobaltcore-dev/kvm-exporter/main/README.md
+  icon: https://raw.githubusercontent.com/cobaltcore-dev/kvm-exporter/main/logo.png
+  helmChart:
+    name: kvm-exporter
+    repository: oci://ghcr.io/cobaltcore-dev/kvm-exporter/charts
+    version: 0.3.0
+  options:
+    - name: serviceMonitorLabels
+      displayName: Extra Service Monitor Labels
+      description: Extra labels to add to the ServiceMonitor resource.
+      type: map
+      required: true
+    - name: prometheusRules.create
+      description: Create Prometheus rules
+      required: false
+      default: true
+      type: bool
+    - name: prometheusRules.ruleSelectors
+      description: Selector for Prometheus rules to be picked up by the Prometheus operator. List of key-value pairs.
+      required: false
+      type: list
+    - name: prometheusRules.additionalRuleLabels
+      description: Additional labels to be added every Prometheus rule. E.g support_group, service
+      required: false
+      type: map
+    - name: persesDashboards.create
+      description: Create Perses dashboards
+      required: false
+      default: true
+      type: bool
+    - name: kvmExporter.image.repository
+      description: KVM Exporter container image repository
+      required: false
+      default: ghcr.io/cobaltcore-dev/kvm-exporter/kvm-exporter
+      type: string
+    - name: kvmExporter.image.tag
+      description: KVM Exporter container image tag
+      required: false
+      default: latest
+      type: string
+    - name: libvirt.uri
+      description: Driver URI for libvirt connection string
+      required: false
+      default: ch:///system?socket=/run/libvirt/libvirt-sock-ro
+      type: string
+    - name: libvirt.socketPath
+      description: Cloud Hypervisor domain data directory (/var/run is a symlink to /run)
+      required: false
+      default: /run/libvirt
+      type: string
+    - name: libvirt.configPath
+      description: Host libvirt.conf path
+      required: false
+      type: string
+    - name: libvirt.mountPaths
+      description: Mount paths to expose to the exporter
+      required: false
+      type: list

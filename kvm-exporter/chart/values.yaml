@@ -1,0 +1,116 @@
+# SPDX-FileCopyrightText: 2025 SAP SE or an SAP affiliate company and cobaltcore-dev contributors
+# SPDX-License-Identifier: Apache-2.0
+
+image:
+  repository: ghcr.io/cobaltcore-dev/kvm-exporter
+  tag: latest
+  pullPolicy: IfNotPresent
+rollingUpdate:
+  maxUnavailable: 0
+  maxSurge: 25%
+resources:
+  requests:
+    cpu: 150m
+    memory: 128Mi
+  limits:
+    cpu: 400m
+    memory: 256Mi
+probes:
+  readiness:
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 3
+  liveness:
+    initialDelaySeconds: 30
+    periodSeconds: 15
+    timeoutSeconds: 3
+    failureThreshold: 3
+securityContext:
+  runAsUser: 0
+  allowPrivilegeEscalation: false
+  privileged: false
+  readOnlyRootFilesystem: true
+  dropCapabilities:
+    - ALL
+  addCapabilities:
+    - SYS_PTRACE
+  seccompProfile:
+    type: RuntimeDefault
+  appArmorProfile:
+    type: Unconfined
+# KVM/libvirt related configuration
+libvirt:
+  # Libvirt driver URI (Cloud Hypervisor) + read-only socket (forces RO access)
+  # default: ch:///system
+  uri: ch:///system?socket=/run/libvirt/libvirt-sock-ro
+  # Cloud Hypervisor domain data directory (/var/run is a symlink to /run)
+  socketPath: /run/libvirt/ch
+  # Host libvirt.conf path (leave empty to use default: /etc/libvirt/libvirt.conf)
+  configPath: ""
+  # Mount paths to expose to the exporter
+  mountPaths:
+    - /var/lib/nova/mnt
+    - /var/lib/nova/instances
+# List of extra labels to add to the servicemonitor.
+# This can be used to make the servicemonitor visible to the prometheus
+# service monitor filter. If none are provided, no extra labels are added.
+serviceMonitorLabels: {}
+pluginPreset: true
+global:
+  ## Common labels to add to all resources
+  commonLabels: {}
+## Default rules for monitoring the cloud storage clusters
+prometheusRules:
+  ## Enables PrometheusRule resources to be created
+  create: true
+  ## PrometheusRule groups to be created
+  ruleGroups:
+    domainHealth: true
+    nodeHealth: true
+  ## Needs to be defined at least to not nil pointer evaluating interface {}
+  disabled: {}
+  ## Label selectors for the Prometheus rules to be picked up by Prometheus.
+  ruleSelectors:
+  # - name: plugin
+  #   value: kube-monitoring
+  # - name: prometheus
+  #   value: kubernetes
+  ## Labels for PrometheusRules
+  labels: {}
+  ## Annotations for PrometheusRules
+  annotations: {}
+  ## Additional labels for PrometheusRule alerts
+  ## This is useful for adding additional labels such as "support_group" or "service" for the routing of alerts to each rule
+  additionalRuleLabels:
+  # support_group: compute
+  # service: kvm
+  ## Additional annotations for PrometheusRule alerts
+  additionalRuleAnnotations: {}
+## Create default plutono dashboards for monitoring the cluster
+dashboards:
+  ## Enables ConfigMap resources with dashboards to be created
+  create: true
+  ## Label selectors for the Plutono dashboards to be picked up by Plutono.
+  dashboardSelectors:
+    - name: plutono-dashboard
+      value: '"true"'
+  global:
+    ## Enables ConfigMap resources with global dashboards to be created
+    create: false
+    ## Label selectors for the global Plutono dashboards to be picked up by the global Plutono.
+    dashboardSelectors:
+      - name: plutono-global
+        value: '"true"'
+    ## Label selectors for the global Perses dashboards to be picked up by the global Perses.
+    persesDashboardSelectors:
+      - name: perses.dev/global-resource
+        value: '"true"'
+## Create default Perses dashboards for monitoring the cluster
+persesDashboards:
+  ## Enables ConfigMap resources with Perses dashboards to be created
+  create: true
+  ## Label selectors for the Plutono dashboards to be picked up by Plutono.
+  dashboardSelectors:
+    - name: perses.dev/resource
+      value: '"true"'

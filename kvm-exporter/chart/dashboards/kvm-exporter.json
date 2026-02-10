@@ -1,0 +1,306 @@
+{
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "kvm-exporter",
+    "createdAt": "2025-10-17T01:33:07.374149242Z",
+    "updatedAt": "2025-10-17T01:51:07.459078639Z",
+    "version": 6,
+    "project": "kvm-exporter"
+  },
+  "spec": {
+    "display": {
+      "name": "KVM Exporter"
+    },
+    "panels": {
+      "AverageRuntimebyMethod": {
+        "kind": "Panel",
+        "spec": {
+          "display": {
+            "name": "P90 - Runtime by Method"
+          },
+          "plugin": {
+            "kind": "TimeSeriesChart",
+            "spec": {
+              "legend": {
+                "mode": "table",
+                "position": "right",
+                "values": [
+                  "mean",
+                  "max",
+                  "last-number"
+                ]
+              },
+              "visual": {
+                "areaOpacity": 0,
+                "connectNulls": false,
+                "display": "line",
+                "lineWidth": 1.25,
+                "pointRadius": 2.75
+              },
+              "yAxis": {
+                "format": {
+                  "unit": "seconds"
+                },
+                "label": "",
+                "max": 10,
+                "min": 0,
+                "show": true
+              }
+            }
+          },
+          "queries": [
+            {
+              "kind": "TimeSeriesQuery",
+              "spec": {
+                "plugin": {
+                  "kind": "PrometheusTimeSeriesQuery",
+                  "spec": {
+                    "query": "histogram_quantile(0.90, sum(rate(methods_called_seconds_bucket{namespace=\"kvm-exporter\"}[10m])) by (le, method))",
+                    "seriesNameFormat": "{{ method }}"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "AverageRuntimebyMethodandNode": {
+        "kind": "Panel",
+        "spec": {
+          "display": {
+            "name": "P90 - Runtime by Method and Node"
+          },
+          "plugin": {
+            "kind": "TimeSeriesChart",
+            "spec": {
+              "legend": {
+                "mode": "table",
+                "position": "right",
+                "size": "medium",
+                "values": [
+                  "mean",
+                  "last-number",
+                  "max"
+                ]
+              },
+              "querySettings": [],
+              "yAxis": {
+                "format": {
+                  "unit": "seconds"
+                },
+                "label": "",
+                "max": 10,
+                "min": 0,
+                "show": true
+              }
+            }
+          },
+          "queries": [
+            {
+              "kind": "TimeSeriesQuery",
+              "spec": {
+                "plugin": {
+                  "kind": "PrometheusTimeSeriesQuery",
+                  "spec": {
+                    "query": "histogram_quantile(0.90, sum(rate(methods_called_seconds_bucket{namespace=\"kvm-exporter\"}[10m])) by (le, method, node))",
+                    "seriesNameFormat": "{{ node }} - {{ method }}"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "CPUusageinSeconds": {
+        "kind": "Panel",
+        "spec": {
+          "display": {
+            "name": "CPU Usage in Seconds"
+          },
+          "plugin": {
+            "kind": "TimeSeriesChart",
+            "spec": {
+              "legend": {
+                "mode": "table",
+                "position": "right",
+                "values": [
+                  "mean",
+                  "last-number",
+                  "max"
+                ]
+              },
+              "yAxis": {
+                "format": {
+                  "unit": "seconds"
+                },
+                "label": "",
+                "show": true
+              }
+            }
+          },
+          "queries": [
+            {
+              "kind": "TimeSeriesQuery",
+              "spec": {
+                "plugin": {
+                  "kind": "PrometheusTimeSeriesQuery",
+                  "spec": {
+                    "query": "sum by (node) (rate(container_cpu_usage_seconds_total{namespace=\"kvm-exporter\"}[$__rate_interval]))",
+                    "seriesNameFormat": "{{ node }}"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "MemoryUsageperExecution": {
+        "kind": "Panel",
+        "spec": {
+          "display": {
+            "name": "Memory Usage per Execution"
+          },
+          "plugin": {
+            "kind": "TimeSeriesChart",
+            "spec": {
+              "legend": {
+                "mode": "table",
+                "position": "right",
+                "values": [
+                  "mean",
+                  "max",
+                  "last-number"
+                ]
+              },
+              "yAxis": {
+                "format": {
+                  "unit": "bytes"
+                },
+                "label": "",
+                "show": true
+              }
+            }
+          },
+          "queries": [
+            {
+              "kind": "TimeSeriesQuery",
+              "spec": {
+                "plugin": {
+                  "kind": "PrometheusTimeSeriesQuery",
+                  "spec": {
+                    "query": "go_memstats_alloc_bytes{namespace=\"kvm-exporter\"}",
+                    "seriesNameFormat": "{{ pod }}"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "layouts": [
+      {
+        "kind": "Grid",
+        "spec": {
+          "display": {
+            "title": "Method Runtimes",
+            "collapse": {
+              "open": true
+            }
+          },
+          "items": [
+            {
+              "x": 0,
+              "y": 0,
+              "width": 24,
+              "height": 11,
+              "content": {
+                "$ref": "#/spec/panels/AverageRuntimebyMethod"
+              }
+            },
+            {
+              "x": 0,
+              "y": 11,
+              "width": 24,
+              "height": 9,
+              "content": {
+                "$ref": "#/spec/panels/AverageRuntimebyMethodandNode"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "kind": "Grid",
+        "spec": {
+          "display": {
+            "title": "CPU",
+            "collapse": {
+              "open": true
+            }
+          },
+          "items": [
+            {
+              "x": 0,
+              "y": 0,
+              "width": 24,
+              "height": 9,
+              "content": {
+                "$ref": "#/spec/panels/CPUusageinSeconds"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "kind": "Grid",
+        "spec": {
+          "display": {
+            "title": "Memory",
+            "collapse": {
+              "open": true
+            }
+          },
+          "items": [
+            {
+              "x": 0,
+              "y": 0,
+              "width": 24,
+              "height": 9,
+              "content": {
+                "$ref": "#/spec/panels/MemoryUsageperExecution"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "variables": [
+      {
+        "kind": "ListVariable",
+        "spec": {
+          "display": {
+            "name": "Method",
+            "description": "Exporter excecuted method",
+            "hidden": false
+          },
+          "defaultValue": "$__all",
+          "allowAllValue": true,
+          "allowMultiple": true,
+          "customAllValue": ".*",
+          "sort": "alphabetical-asc",
+          "plugin": {
+            "kind": "PrometheusPromQLVariable",
+            "spec": {
+              "expr": "repository_methods_called_seconds_sum{namespace=\"kvm-exporter\"}",
+              "labelName": "method"
+            }
+          },
+          "name": "method"
+        }
+      }
+    ],
+    "duration": "1h",
+    "refreshInterval": "0s"
+  }
+}
