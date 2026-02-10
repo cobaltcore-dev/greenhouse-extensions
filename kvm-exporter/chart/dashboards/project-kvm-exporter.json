@@ -1,0 +1,7 @@
+{
+    "kind": "Project",
+    "metadata": {
+      "name": "kvm-exporter"
+    },
+    "spec": { "display": { "name": "KVM Monitoring" } }
+}
