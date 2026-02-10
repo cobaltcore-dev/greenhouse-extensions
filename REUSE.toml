@@ -8,7 +8,17 @@ SPDX-PackageDownloadLocation = "https://github.com/cobaltcore-dev/greenhouse-ext
 path = [
   ".github/CODEOWNERS",
   ".github/renovate.json",
-  ".gitignore",
+  ".gitignore"
 ]
 SPDX-FileCopyrightText = "SAP SE or an SAP affiliate company and cobaltcore-dev contributors"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = "**/chart/dashboards/*.json"
+SPDX-FileCopyrightText = "2026 SAP SE or an SAP affiliate company and cobaltcore-dev contributors"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = "**/logo.png"
+SPDX-FileCopyrightText = "2026 SAP SE or an SAP affiliate company and cobaltcore-dev contributors"
 SPDX-License-Identifier = "Apache-2.0"
