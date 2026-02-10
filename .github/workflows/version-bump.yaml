@@ -126,10 +126,12 @@ jobs:
         if: steps.version-bump.outputs.new_version != ''
         run: |
           if [ -f "${{ matrix.folder }}/chart/values.yaml" ] && [ -f "${{ matrix.folder }}/chart/Chart.yaml" ]; then
-            IMAGE_TAG=$(yq .${{ matrix.folder }}.image.tag "${{ matrix.folder }}/chart/values.yaml")
-            if [ -n "$IMAGE_TAG" ]; then
+            IMAGE_TAG=$(yq .image.tag "${{ matrix.folder }}/chart/values.yaml")
+            if [ -n "$IMAGE_TAG" ] && [ "$IMAGE_TAG" != "null" ]; then
               echo "Syncing appVersion to: $IMAGE_TAG"
               yq -i ".appVersion = \"$IMAGE_TAG\"" "${{ matrix.folder }}/chart/Chart.yaml"
+            else
+              echo "No valid image tag found, skipping appVersion sync"
             fi
           fi
 
