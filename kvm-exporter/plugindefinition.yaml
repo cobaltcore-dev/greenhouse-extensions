@@ -6,17 +6,17 @@ kind: PluginDefinition
 metadata:
   name: kvm-exporter
 spec:
-  version: 0.3.1
+  version: 0.3.0
   displayName: KVM Exporter
   description: Metrics exporter for KVM hypervisors.
-  docMarkDownUrl: https://raw.githubusercontent.com/cobaltcore-dev/kvm-exporter/main/README.md
+  docMarkDownUrl: https://raw.githubusercontent.com/cobaltcore-dev/kvm-monitoring/main/README.md
   icon: https://raw.githubusercontent.com/cobaltcore-dev/kvm-exporter/main/logo.png
   helmChart:
     name: kvm-exporter
-    repository: oci://ghcr.io/cobaltcore-dev/greenhouse-extensions/charts/kvm-exporter
-    version: 0.3.1
+    repository: oci://ghcr.io/cobaltcore-dev/kvm-monitoring/charts
+    version: 0.3.0
   options:
-    - name: serviceMonitorLabels
+    - name: serviceMonitorLabelsx
       displayName: Extra Service Monitor Labels
       description: Extra labels to add to the ServiceMonitor resource.
       type: map
