@@ -13,7 +13,7 @@ spec:
   icon: https://raw.githubusercontent.com/cobaltcore-dev/kvm-exporter/main/logo.png
   helmChart:
     name: kvm-exporter
-    repository: oci://ghcr.io/cobaltcore-dev/kvm-exporter/charts
+    repository: ghcr.io/cobaltcore-dev/greenhouse-extensions/charts/kvm-exporter
     version: 0.3.0
   options:
     - name: serviceMonitorLabels
