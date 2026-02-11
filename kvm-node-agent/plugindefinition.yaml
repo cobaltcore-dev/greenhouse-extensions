@@ -5,14 +5,18 @@ kind: PluginDefinition
 metadata:
   name: kvm-node-agent
 spec:
-  version: 0.1.8
+  version: 0.1.9
   displayName: KVM Node Agent
   description: "KVM Node Agent to manage KVM hypervisor nodes within a Kubernetes environment."
   helmChart:
     name: kvm-node-agent
     repository: oci://ghcr.io/cobaltcore-dev/charts
-    version: 0.1.8
+    version: 0.1.9
   options:
+    - name: controllerManager.manager.env.libvirtDefaultUri
+      description: "Libvirt Default Uri"
+      type: string
+      default: "ch:///system"
     - name: controllerManager.manager.env.issuerName
       description: "Issuer name for the KVM Node Agent certificates."
       type: string
@@ -25,3 +29,8 @@ spec:
       description: "Container image tag for the KVM Node Agent."
       type: string
       default: latest
+    - name: controllerManager.nodeSelector
+      description: "NodeSelector for the KVM Node Agent."
+      type: map
+      default:
+        "nova.openstack.cloud.sap/virt-driver": "libvirt-ch"
