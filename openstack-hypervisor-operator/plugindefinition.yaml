@@ -5,13 +5,13 @@ kind: PluginDefinition
 metadata:
   name: openstack-hypervisor-operator
 spec:
-  version: 0.2.4
+  version: 0.2.5
   displayName: OpenStack Hypervisor Operator
   description: "Manages OpenStack hypervisor nodes within a Kubernetes environment."
   helmChart:
     name: openstack-hypervisor-operator
     repository: oci://ghcr.io/cobaltcore-dev/charts
-    version: 0.2.4
+    version: 0.2.5
   options:
     - name: controllerManager.manager.image.tag
       description: "Container image tag for the KVM Node Agent."
@@ -37,4 +37,3 @@ spec:
       description: "Limit the controller to resources with a certain label-selector."
       type: string
       default: ""
-
