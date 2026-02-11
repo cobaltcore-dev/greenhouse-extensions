@@ -13,10 +13,6 @@ spec:
     repository: oci://ghcr.io/cobaltcore-dev/charts
     version: 0.2.4
   options:
-    - name: fullnameOverride
-      description: "Override the full name of the deployment."
-      type: string
-      default: hypervisor-operator
     - name: controllerManager.manager.image.tag
       description: "Container image tag for the KVM Node Agent."
       type: string
@@ -37,3 +33,8 @@ spec:
       description: "OpenStack project domain name for the hypervisor operator."
       type: string
       default: Default
+    - name: controllerManager.manager.env.labelSelector
+      description: "Limit the controller to resources with a certain label-selector."
+      type: string
+      default: ""
+
