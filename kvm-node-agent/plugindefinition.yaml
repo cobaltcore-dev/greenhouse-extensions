@@ -5,13 +5,13 @@ kind: PluginDefinition
 metadata:
   name: kvm-node-agent
 spec:
-  version: 0.1.9
+  version: 0.1.10
   displayName: KVM Node Agent
   description: "KVM Node Agent to manage KVM hypervisor nodes within a Kubernetes environment."
   helmChart:
     name: kvm-node-agent
     repository: oci://ghcr.io/cobaltcore-dev/charts
-    version: 0.1.9
+    version: 0.1.10
   options:
     - name: controllerManager.manager.env.libvirtDefaultUri
       description: "Libvirt Default Uri"
