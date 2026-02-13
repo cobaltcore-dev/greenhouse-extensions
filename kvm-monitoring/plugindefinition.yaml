@@ -1,0 +1,61 @@
+# SPDX-FileCopyrightText: 2025 SAP SE or an SAP affiliate company and cobaltcore-dev contributors
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: greenhouse.sap/v1alpha1
+kind: PluginDefinition
+metadata:
+  name: kvm-monitoring
+spec:
+  version: 0.2.15
+  displayName: KVM Monitoring
+  description: Monitoring stack for KVM Hypervisors.
+  docMarkDownUrl: https://raw.githubusercontent.com/cobaltcore-dev/kvm-monitoring/main/greenhouse/README.md
+  icon: https://raw.githubusercontent.com/cobaltcore-dev/kvm-monitoring/main/greenhouse/logo.png
+  helmChart:
+    name: kvm-monitoring
+    repository: oci://ghcr.io/cobaltcore-dev/kvm-monitoring/charts
+    version: 0.2.15
+  options:
+    - name: serviceMonitorLabels
+      displayName: Extra Service Monitor Labels
+      description: Extra labels to add to the ServiceMonitor resource.
+      type: map
+      required: true
+    - name: prometheusRules.create
+      description: Create Prometheus rules
+      required: false
+      default: true
+      type: bool
+    - name: prometheusRules.ruleSelectors
+      description: Selector for Prometheus rules to be picked up by the Prometheus operator. List of key-value pairs.
+      required: false
+      type: list
+    - name: prometheusRules.additionalRuleLabels
+      description: Additional labels to be added every Prometheus rule. E.g support_group, service
+      required: false
+      type: map
+    - name: persesDashboards.create
+      description: Create Perses dashboards
+      required: false
+      default: true
+      type: bool
+    - name: dashboards.create
+      description: Create Plutono dashboards
+      required: false
+      default: true
+      type: bool
+    - name: dashboards.global.create
+      description: Create global Plutono dashboards
+      required: false
+      default: false
+      type: bool
+    - name: dashboards.create
+      description: Create Plutono dashboards
+      required: false
+      default: true
+      type: bool
+    - name: dashboards.global.create
+      description: Create global Plutono dashboards
+      required: false
+      default: false
+      type: bool
