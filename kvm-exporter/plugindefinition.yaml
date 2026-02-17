@@ -16,7 +16,7 @@ spec:
     repository: oci://ghcr.io/cobaltcore-dev/kvm-exporter/charts
     version: 0.2.17
   options:
-    - name: serviceMonitorLabelsx
+    - name: serviceMonitorLabels
       displayName: Extra Service Monitor Labels
       description: Extra labels to add to the ServiceMonitor resource.
       type: map
