@@ -9,7 +9,7 @@ spec:
   version: 0.2.17
   displayName: KVM Exporter
   description: Metrics exporter for KVM hypervisors.
-  docMarkDownUrl: https://raw.githubusercontent.com/cobaltcore-dev/kvm-monitoring/main/README.md
+  docMarkDownUrl: https://raw.githubusercontent.com/cobaltcore-dev/kvm-exporter/main/README.md
   icon: https://raw.githubusercontent.com/cobaltcore-dev/kvm-exporter/main/logo.png
   helmChart:
     name: kvm-exporter
