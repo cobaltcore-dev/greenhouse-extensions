@@ -34,7 +34,7 @@ spec:
       description: Additional labels to be added every Prometheus rule. E.g support_group, service
       required: false
       type: map
-    - name: persesDashboards.create
+    - name: dashboards.create
       description: Create Perses dashboards
       required: false
       default: true
