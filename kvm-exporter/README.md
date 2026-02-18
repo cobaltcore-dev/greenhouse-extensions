@@ -7,4 +7,4 @@ title: KVM Exporter
 # SPDX-License-Identifier: Apache-2.0
 -->
 
-This Plugin provides the [KVM Exporter)](https://github.com/cobaltcore-dev/kvm-exporter) which fetches KVM Metrics from Cloudhypervisor/Libvirt Nodes 
+This Plugin provides the [KVM Exporter](https://github.com/cobaltcore-dev/kvm-exporter) which fetches KVM Metrics from Cloudhypervisor/Libvirt Nodes 
