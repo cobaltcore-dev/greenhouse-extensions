@@ -9,8 +9,8 @@ spec:
   version: 0.0.1
   displayName: KVM Monitoring
   description: Monitoring stack for KVM Hypervisors.
-  docMarkDownUrl: https://raw.githubusercontent.com/cobaltcore-dev/kvm-monitoring/main/README.md
-  icon: https://raw.githubusercontent.com/cobaltcore-dev/kvm-monitoring/main/logo.png
+  docMarkDownUrl: https://raw.githubusercontent.com/cobaltcore-dev/greenhouse-extensions/kvm-monitoring/main/README.md
+  icon: https://raw.githubusercontent.com/cobaltcore-dev/greenhouse-extensions/kvm-monitoring/main/logo.png
   helmChart:
     name: kvm-monitoring
     repository: oci://ghcr.io/cobaltcore-dev/kvm-monitoring/charts
