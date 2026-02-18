@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: 2025 SAP SE or an SAP affiliate company
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: greenhouse.sap/v1alpha1
+kind: PluginDefinition
+metadata:
+  name: ca-issuer
+spec:
+  version: 0.1.8
+  displayName: KVM Node CA Issuer
+  description: "KVM Node CA Issuer for KVM Nodes."
+  helmChart:
+    name: ca-issuer
+    repository: oci://ghcr.io/cobaltcore-dev/greenhouse-extensions/charts
+    version: 0.1.0
