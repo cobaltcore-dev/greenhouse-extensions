@@ -11,4 +11,4 @@ spec:
   helmChart:
     name: ca-issuer
     repository: oci://ghcr.io/cobaltcore-dev/greenhouse-extensions/charts
-    version: 0.1.0
+    version: 0.1.1
