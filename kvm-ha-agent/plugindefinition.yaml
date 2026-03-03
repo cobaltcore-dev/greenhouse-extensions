@@ -1,0 +1,52 @@
+# SPDX-FileCopyrightText: 2025 SAP SE or an SAP affiliate company
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: greenhouse.sap/v1alpha1
+kind: PluginDefinition
+metadata:
+  name: kvm-ha-agent
+spec:
+  version: 0.1.0
+  displayName: KVM HA Agent
+  description: "KVM HA Agent to manage KVM hypervisor nodes within a Kubernetes environment."
+  helmChart:
+    name: kvm-ha-agent
+    repository: oci://keppel.eu-de-1.cloud.sap/ccloud-helm/kvm-ha-agent
+    version: 0.1.4
+  options:
+  - name: global.region
+    type: string
+    required: true
+    description: "OpenStack region"
+  - name: global.az
+    type: string
+    required: true
+    description: "OpenStack Availability zone"
+  - name: kvmHaAgent.clientSecret
+    type: secret
+    required: true
+    description: "Client secret for authenticating against the KVM HA service"
+  - name: kvmHaAgent.image.repository
+    type: string
+    description: "Container image repository for the KVM HA Agent"
+  - name: kvmHaAgent.image.tag
+    type: string
+    description: "Container image tag for the KVM HA Agent"
+  - name: kvmHaAgent.image.pullPolicy
+    type: string
+    description: "Image pull policy"
+  - name: kvmHaAgent.dryrun
+    type: bool
+    default: false
+    description: "Run the agent in dry-run mode without reporting to kvm-ha-service"
+  - name: kvmHaAgent.logLevel
+    type: string
+    default: info
+    description: "Log verbosity level"
+  - name: kvmHaAgent.haServiceName
+    type: string
+    default: kvm-ha-service
+    description: "Name of the KVM HA service endpoint"
+  - name: kvmHaAgent.haServicePort
+    type: int
+    default: 443
+    description: "Port of the KVM HA service endpoint"
