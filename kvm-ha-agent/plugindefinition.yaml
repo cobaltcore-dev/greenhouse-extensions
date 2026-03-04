@@ -5,13 +5,13 @@ kind: PluginDefinition
 metadata:
   name: kvm-ha-agent
 spec:
-  version: 0.1.0
+  version: 0.1.1
   displayName: KVM HA Agent
   description: "KVM HA Agent to manage KVM hypervisor nodes within a Kubernetes environment."
   helmChart:
     name: kvm-ha-agent
-    repository: oci://keppel.eu-de-1.cloud.sap/ccloud-helm/kvm-ha-agent
-    version: 0.1.4
+    repository: oci://keppel.eu-de-1.cloud.sap/ccloud-helm/kvm-ha-agent-umbrella
+    version: 0.1.0
   options:
   - name: global.region
     type: string
