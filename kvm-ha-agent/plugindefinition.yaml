@@ -9,8 +9,8 @@ spec:
   displayName: KVM HA Agent
   description: "KVM HA Agent to manage KVM hypervisor nodes within a Kubernetes environment."
   helmChart:
-    name: kvm-ha-agent
-    repository: oci://keppel.eu-de-1.cloud.sap/ccloud-helm/kvm-ha-agent-umbrella
+    name: kvm-ha-agent-umbrella
+    repository: oci://keppel.eu-de-1.cloud.sap/ccloud-helm
     version: 0.1.0
   options:
   - name: global.region
