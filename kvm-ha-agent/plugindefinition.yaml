@@ -5,13 +5,13 @@ kind: PluginDefinition
 metadata:
   name: kvm-ha-agent
 spec:
-  version: 0.1.1
+  version: 0.1.2
   displayName: KVM HA Agent
   description: "KVM HA Agent to manage KVM hypervisor nodes within a Kubernetes environment."
   helmChart:
     name: kvm-ha-agent-umbrella
     repository: oci://keppel.eu-de-1.cloud.sap/ccloud-helm
-    version: 0.1.0
+    version: 0.1.1
   options:
   - name: global.region
     type: string
@@ -21,32 +21,32 @@ spec:
     type: string
     required: true
     description: "OpenStack Availability zone"
-  - name: kvmHaAgent.clientSecret
+  - name: kvm-ha-agent.clientSecret
     type: secret
     required: true
     description: "Client secret for authenticating against the KVM HA service"
-  - name: kvmHaAgent.image.repository
+  - name: kvm-ha-agent.image.repository
     type: string
     description: "Container image repository for the KVM HA Agent"
-  - name: kvmHaAgent.image.tag
+  - name: kvm-ha-agent.image.tag
     type: string
     description: "Container image tag for the KVM HA Agent"
-  - name: kvmHaAgent.image.pullPolicy
+  - name: kvm-ha-agent.image.pullPolicy
     type: string
     description: "Image pull policy"
-  - name: kvmHaAgent.dryrun
+  - name: kvm-ha-agent.dryrun
     type: bool
     default: false
     description: "Run the agent in dry-run mode without reporting to kvm-ha-service"
-  - name: kvmHaAgent.logLevel
+  - name: kvm-ha-agent.logLevel
     type: string
     default: info
     description: "Log verbosity level"
-  - name: kvmHaAgent.haServiceName
+  - name: kvm-ha-agent.haServiceName
     type: string
     default: kvm-ha-service
     description: "Name of the KVM HA service endpoint"
-  - name: kvmHaAgent.haServicePort
+  - name: kvm-ha-agent.haServicePort
     type: int
     default: 443
     description: "Port of the KVM HA service endpoint"
