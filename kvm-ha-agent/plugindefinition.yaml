@@ -5,13 +5,13 @@ kind: PluginDefinition
 metadata:
   name: kvm-ha-agent
 spec:
-  version: 0.1.2
+  version: 0.1.3
   displayName: KVM HA Agent
   description: "KVM HA Agent to manage KVM hypervisor nodes within a Kubernetes environment."
   helmChart:
     name: kvm-ha-agent-umbrella
     repository: oci://keppel.eu-de-1.cloud.sap/ccloud-helm
-    version: 0.1.1
+    version: 0.1.2
   options:
   - name: global.region
     type: string
@@ -50,3 +50,21 @@ spec:
     type: int
     default: 443
     description: "Port of the KVM HA service endpoint"
+  - name: prometheusRules.create
+    description: Create Prometheus rules
+    required: false
+    default: true
+    type: bool
+  - name: prometheusRules.ruleSelectors
+    description: Selector for Prometheus rules to be picked up by the Prometheus operator. List of key-value pairs.
+    required: false
+    type: list
+  - name: prometheusRules.additionalRuleLabels
+    description: Additional labels to be added every Prometheus rule. E.g support_group, service
+    required: false
+    type: map
+  - name: dashboards.create
+    description: Create Perses dashboards
+    required: false
+    default: true
+    type: bool
