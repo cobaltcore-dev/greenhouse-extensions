@@ -11,7 +11,7 @@ spec:
   helmChart:
     name: kvm-node-agent
     repository: oci://ghcr.io/cobaltcore-dev/charts
-    version: 0.1.10
+    version: 0.1.12
   options:
     - name: controllerManager.manager.env.libvirtDefaultUri
       description: "Libvirt Default Uri"
