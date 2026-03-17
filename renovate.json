@@ -1,0 +1,29 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "packageRules": [
+    {
+      "matchFileNames": ["openstack-hypervisor-operator/plugindefinition.yaml"],
+      "matchManagers": ["custom.regex"],
+      "groupName": "openstack-hypervisor-operator helm chart",
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": ["^openstack-hypervisor-operator/plugindefinition\\.yaml$"],
+      "matchStrings": [
+        "helmChart:\\s+name:\\s+openstack-hypervisor-operator\\s+repository:\\s+(?<registryUrl>.*?)\\s+version:\\s+(?<currentValue>.*?)\\s"
+      ],
+      "datasourceTemplate": "helm",
+      "registryUrlTemplate": "{{{registryUrl}}}",
+      "depNameTemplate": "openstack-hypervisor-operator",
+      "versioningTemplate": "semver"
+    }
+  ]
+}
