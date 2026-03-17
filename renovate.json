@@ -1,0 +1,39 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "packageRules": [
+    {
+      "matchFileNames": ["**/plugindefinition.yaml"],
+      "matchManagers": ["custom.regex"],
+      "groupName": "{{parentDir}} helm chart"
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update spec.version in plugindefinition.yaml",
+      "fileMatch": ["(^|/)plugindefinition\\.yaml$"],
+      "matchStrings": [
+        "spec:\\s+version:\\s+(?<currentValue>[^\\s]+)\\s+displayName:[^\\n]+\\s+description:[^\\n]+(?:[^\\n]*\\n)*?\\s+helmChart:\\s+name:\\s+(?<depName>[^\\s]+)\\s+repository:\\s+oci://(?<registryUrl>[^/]+)/(?<path>.+?)\\s+version:"
+      ],
+      "datasourceTemplate": "docker",
+      "registryUrlTemplate": "https://{{{registryUrl}}}",
+      "packageNameTemplate": "{{{path}}}/{{{depName}}}",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "description": "Update helmChart.version in plugindefinition.yaml",
+      "fileMatch": ["(^|/)plugindefinition\\.yaml$"],
+      "matchStrings": [
+        "helmChart:\\s+name:\\s+(?<depName>[^\\s]+)\\s+repository:\\s+oci://(?<registryUrl>[^/]+)/(?<path>.+?)\\s+version:\\s+(?<currentValue>[^\\s]+)"
+      ],
+      "datasourceTemplate": "docker",
+      "registryUrlTemplate": "https://{{{registryUrl}}}",
+      "packageNameTemplate": "{{{path}}}/{{{depName}}}",
+      "versioningTemplate": "semver"
+    }
+  ]
+}
