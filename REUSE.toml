@@ -8,7 +8,8 @@ SPDX-PackageDownloadLocation = "https://github.com/cobaltcore-dev/greenhouse-ext
 path = [
   ".github/CODEOWNERS",
   ".github/renovate.json",
-  ".gitignore"
+  ".gitignore",
+  "renovate.json"
 ]
 SPDX-FileCopyrightText = "SAP SE or an SAP affiliate company and cobaltcore-dev contributors"
 SPDX-License-Identifier = "Apache-2.0"

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "packageRules": [
+    {
+      "matchFileNames": ["**/plugindefinition.yaml"],
+      "matchManagers": ["custom.regex"],
+      "groupName": "{{parentDir}} helm chart"
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": ["(^|/)plugindefinition\\.yaml$"],
+      "matchStrings": [
+        "helmChart:\\s+name:\\s+(?<depName>[^\\s]+)\\s+repository:\\s+oci://(?<registryUrl>[^/]+)/(?<path>.+?)\\s+version:\\s+(?<currentValue>.*?)\\s"
+      ],
+      "datasourceTemplate": "docker",
+      "registryUrlTemplate": "https://{{{registryUrl}}}",
+      "packageNameTemplate": "{{{path}}}/{{{depName}}}",
+      "versioningTemplate": "semver"
+    }
+  ]
+}
