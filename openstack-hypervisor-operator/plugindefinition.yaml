@@ -11,7 +11,7 @@ spec:
   helmChart:
     name: openstack-hypervisor-operator
     repository: oci://ghcr.io/cobaltcore-dev/charts
-    version: 0.2.4
+    version: 0.2.9
   options:
     - name: fullnameOverride
       description: "Override the full name of the deployment."
