@@ -1,0 +1,5 @@
+# Code owners for greenhouse-extensions repository
+# These owners will be requested for review when PRs are opened
+
+# Plugin definitions
+**/plugindefinition.yaml @cobaltcore-dev/kvm-dev
