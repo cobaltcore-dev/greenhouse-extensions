@@ -5,10 +5,10 @@ kind: PluginDefinition
 metadata:
   name: labels-injector
 spec:
-  version: 1.2.0
+  version: 1.3.0
   displayName: Labels Injector
   description: "Injects predefined labels to pods by transporting them from nodes."
   helmChart:
     name: labels-injector
     repository: oci://ghcr.io/cobaltcore-dev/charts
-    version: 1.2.0
+    version: 1.3.0
