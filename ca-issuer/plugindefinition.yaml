@@ -10,5 +10,5 @@ spec:
   description: "KVM Node CA Issuer for KVM Nodes."
   helmChart:
     name: ca-issuer
-    repository: oci://ghcr.io/cobaltcore-dev/greenhouse-extensions/charts
+    repository: oci://ghcr.io/cobaltcore-dev/charts
     version: 0.1.1
