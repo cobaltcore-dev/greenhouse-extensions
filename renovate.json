@@ -3,7 +3,11 @@
   "extends": [
     "config:recommended"
   ],
+  "baseBranchPatterns": ["playground"],
   "assigneesFromCodeOwners": true,
+  "automerge": true,
+  "automergeType": "pr",
+  "automergeStrategy": "squash",
   "packageRules": [
     {
       "matchFileNames": ["**/plugindefinition.yaml"],
@@ -22,7 +26,7 @@
       "datasourceTemplate": "docker",
       "registryUrlTemplate": "https://{{{registryUrl}}}",
       "packageNameTemplate": "{{{path}}}/{{{depName}}}",
-      "versioningTemplate": "semver"
+      "versioningTemplate": "loose"
     },
     {
       "customType": "regex",
@@ -34,7 +38,7 @@
       "datasourceTemplate": "docker",
       "registryUrlTemplate": "https://{{{registryUrl}}}",
       "packageNameTemplate": "{{{path}}}/{{{depName}}}",
-      "versioningTemplate": "semver"
+      "versioningTemplate": "loose"
     }
   ]
 }
