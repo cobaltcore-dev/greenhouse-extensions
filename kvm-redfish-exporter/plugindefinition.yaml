@@ -1,0 +1,156 @@
+# SPDX-FileCopyrightText: 2026 cobaltcore-dev contributors
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: greenhouse.sap/v1alpha1
+kind: PluginDefinition
+metadata:
+  name: kvm-redfish-exporter
+spec:
+  version: 0.1.0
+  displayName: KVM Redfish Exporter
+  description: Prometheus exporter for Redfish/BMC hardware monitoring. Collects power state, health, temperature, fans, PSU, memory ECC, NVMe SMART, BIOS settings, and firmware versions from Dell iDRAC and HPE iLO.
+  docMarkDownUrl: https://raw.githubusercontent.com/cobaltcore-dev/kvm-redfish-exporter/main/README.md
+  icon: https://raw.githubusercontent.com/cobaltcore-dev/kvm-redfish-exporter/main/logo.png
+  helmChart:
+    name: kvm-redfish-exporter
+    repository: oci://ghcr.io/cobaltcore-dev/kvm-redfish-exporter/charts
+    version: 0.1.0
+  options:
+    # --- Prometheus integration ---
+    - name: serviceMonitorLabels
+      displayName: Extra Service Monitor Labels
+      description: Extra labels to add to the ServiceMonitor/ScrapeConfig resources for Prometheus operator discovery.
+      type: map
+      required: true
+    - name: prometheusRules.create
+      description: Create Prometheus alert rules
+      required: false
+      default: true
+      type: bool
+    - name: prometheusRules.ruleSelectors
+      description: Selector for Prometheus rules to be picked up by the Prometheus operator. List of key-value pairs.
+      required: false
+      type: list
+    - name: prometheusRules.additionalRuleLabels
+      description: Additional labels added to every Prometheus alert rule (e.g. support_group, service).
+      required: false
+      type: map
+    - name: dashboards.create
+      description: Create Perses dashboards
+      required: false
+      default: true
+      type: bool
+
+    # --- Image ---
+    - name: controllerManager.manager.image.repository
+      description: Container image repository
+      required: false
+      default: ghcr.io/cobaltcore-dev/kvm-redfish-exporter
+      type: string
+    - name: controllerManager.manager.image.tag
+      description: Container image tag
+      required: false
+      default: "0.1.0"
+      type: string
+
+    # --- BMC credentials ---
+    - name: kvmRedfishExporter.redfish.secretName
+      displayName: Redfish Credentials Secret
+      description: Name of the K8s Secret containing Redfish/BMC username and password.
+      required: false
+      default: kvm-redfish-credentials
+      type: string
+    - name: kvmRedfishExporter.redfish.username
+      displayName: Redfish Username
+      description: BMC username. Supports vault+kvv2:// references via secrets-injector. If set, the chart creates the Secret automatically.
+      required: false
+      type: secret
+    - name: kvmRedfishExporter.redfish.password
+      displayName: Redfish Password
+      description: BMC password. Supports vault+kvv2:// references via secrets-injector. If set, the chart creates the Secret automatically.
+      required: false
+      type: secret
+
+    # --- Target discovery ---
+    - name: kvmRedfishExporter.discovery.mode
+      displayName: Discovery Mode
+      description: "Target discovery mode: 'kubernetes' (auto-discover from node labels) or 'static' (comma-separated BMC hostnames)."
+      required: false
+      default: kubernetes
+      type: string
+    - name: kvmRedfishExporter.discovery.nodeLabelSelector
+      displayName: Node Label Selector
+      description: K8s label selector to discover compute nodes (used when discovery.mode=kubernetes).
+      required: false
+      type: string
+    - name: kvmRedfishExporter.discovery.bmcHostSuffix
+      displayName: BMC Host Suffix
+      description: Domain suffix appended to derived BMC hostname (e.g. "bmc.example.com").
+      required: false
+      type: string
+    - name: kvmRedfishExporter.discovery.bmcHostPattern
+      displayName: BMC Host Pattern
+      description: "Pattern to derive BMC hostname from node name. 'r-suffix' inserts 'r' after node number, 'direct' uses node name as-is."
+      required: false
+      default: r-suffix
+      type: string
+    - name: kvmRedfishExporter.discovery.staticTargets
+      description: Comma-separated BMC hostnames for static discovery mode.
+      required: false
+      type: string
+
+    # --- Scrape settings ---
+    - name: kvmRedfishExporter.scrapeTimeout
+      displayName: Scrape Timeout
+      description: Timeout in seconds for each BMC scrape request.
+      required: false
+      default: 30
+      type: int
+    - name: kvmRedfishExporter.allowedTargetSuffix
+      displayName: Allowed Target Suffix
+      description: Restrict targets to hostnames matching this suffix (SSRF prevention). Leave empty to allow all.
+      required: false
+      type: string
+
+    # --- Collectors ---
+    - name: kvmRedfishExporter.disabledCollectors.powerState
+      description: Disable power state collection
+      required: false
+      default: false
+      type: bool
+    - name: kvmRedfishExporter.disabledCollectors.health
+      description: Disable component health collection (processors, storage, drives)
+      required: false
+      default: false
+      type: bool
+    - name: kvmRedfishExporter.disabledCollectors.thermal
+      description: Disable temperature collection
+      required: false
+      default: false
+      type: bool
+    - name: kvmRedfishExporter.disabledCollectors.fans
+      description: Disable fan health and speed collection
+      required: false
+      default: false
+      type: bool
+    - name: kvmRedfishExporter.disabledCollectors.psu
+      description: Disable PSU health and power consumption collection
+      required: false
+      default: false
+      type: bool
+    - name: kvmRedfishExporter.disabledCollectors.memory
+      description: Disable DIMM health and ECC error collection
+      required: false
+      default: false
+      type: bool
+    - name: kvmRedfishExporter.disabledCollectors.firmware
+      description: Disable firmware version collection
+      required: false
+      default: false
+      type: bool
+
+    # --- Scheduling ---
+    - name: tolerations
+      description: Tolerations for the exporter Deployment pods.
+      required: false
+      type: list
