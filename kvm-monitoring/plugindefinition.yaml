@@ -6,7 +6,7 @@ kind: PluginDefinition
 metadata:
   name: kvm-monitoring
 spec:
-  version: 0.2.16
+  version: 0.2.17
   displayName: KVM Monitoring
   description: Monitoring stack for KVM Hypervisors.
   docMarkDownUrl: https://raw.githubusercontent.com/cobaltcore-dev/greenhouse-extensions/kvm-monitoring/main/README.md
@@ -14,7 +14,7 @@ spec:
   helmChart:
     name: kvm-monitoring
     repository: oci://ghcr.io/cobaltcore-dev/kvm-monitoring/charts
-    version: 0.2.16
+    version: 0.2.17
   options:
     - name: serviceMonitorLabels
       displayName: Extra Service Monitor Labels
