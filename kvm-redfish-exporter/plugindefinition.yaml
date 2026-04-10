@@ -6,7 +6,7 @@ kind: PluginDefinition
 metadata:
   name: kvm-redfish-exporter
 spec:
-  version: 0.2.2
+  version: 0.2.3
   displayName: KVM Redfish Exporter
   description: Prometheus exporter for Redfish/BMC hardware monitoring. Collects power state, health, temperature, fans, PSU, memory ECC, NVMe SMART, BIOS settings, and firmware versions from Dell iDRAC and HPE iLO.
   docMarkDownUrl: https://raw.githubusercontent.com/cobaltcore-dev/kvm-redfish-exporter/main/README.md
@@ -14,7 +14,7 @@ spec:
   helmChart:
     name: kvm-redfish-exporter
     repository: oci://ghcr.io/cobaltcore-dev/kvm-redfish-exporter/charts
-    version: 0.2.2
+    version: 0.2.3
   options:
     # --- Prometheus integration ---
     - name: serviceMonitorLabels
