@@ -62,9 +62,9 @@ spec:
       type: string
     - name: kvmRedfishExporter.redfish.username
       displayName: Redfish Username
-      description: BMC username. Supports vault+kvv2:// references via secrets-injector. If set, the chart creates the Secret automatically.
+      description: BMC username. Supports vault+kvv2:// references via secrets-injector. If set, the chart creates the String automatically.
       required: false
-      type: secret
+      type: string
     - name: kvmRedfishExporter.redfish.password
       displayName: Redfish Password
       description: BMC password. Supports vault+kvv2:// references via secrets-injector. If set, the chart creates the Secret automatically.
