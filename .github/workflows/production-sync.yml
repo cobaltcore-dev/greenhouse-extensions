@@ -1,0 +1,80 @@
+# SPDX-FileCopyrightText: 2025 SAP SE or an SAP affiliate company
+# SPDX-License-Identifier: Apache-2.0
+
+name: Sync PluginDefinitions to Production
+
+"on":
+  push:
+    branches:
+      - main
+    paths:
+      - '**/plugindefinition.yaml'
+  workflow_dispatch: {}
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Sync plugindefinitions to production
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -uo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git fetch origin production
+
+          plugins=$(find . -maxdepth 2 -name "plugindefinition.yaml" | sed 's|^\./||' | sed 's|/plugindefinition.yaml$||' | sort)
+
+          for plugin_dir in $plugins; do
+            plugin_name="$plugin_dir"
+            branch_name="production-sync/${plugin_name}"
+
+            if git diff --quiet origin/production main -- "${plugin_dir}/"; then
+              existing_pr=$(gh pr list --head "$branch_name" --base production --state open --json number --jq '.[0].number' 2>/dev/null || echo "")
+              if [ -n "$existing_pr" ]; then
+                echo "Closing PR #${existing_pr} for ${plugin_name} (no longer differs)"
+                gh pr close "$existing_pr" --delete-branch
+              fi
+              continue
+            fi
+
+            main_version=$(git show "main:${plugin_dir}/plugindefinition.yaml" | awk '/^spec:/{found=1} found && /version:/{print $2; exit}' || echo "unknown")
+            prod_version=$(git show "origin/production:${plugin_dir}/plugindefinition.yaml" 2>/dev/null | awk '/^spec:/{found=1} found && /version:/{print $2; exit}' || echo "not present")
+            : "${main_version:=unknown}"
+            : "${prod_version:=not present}"
+
+            git checkout -B "$branch_name" origin/production
+            git checkout main -- "${plugin_dir}/"
+            git add "${plugin_dir}/"
+            git commit -m "Promote ${plugin_name} to production (${prod_version} → ${main_version})" || true
+            git push --force origin "$branch_name"
+            git checkout main
+
+            pr_body=$(printf "## Production Sync: %s\n\nPromotes \`%s\` from main to production.\n\n| | Version |\n|---|---|\n| production | \`%s\` |\n| main | \`%s\` |\n\nThis PR was automatically created/updated by the production-sync workflow." "$plugin_name" "$plugin_name" "$prod_version" "$main_version")
+
+            existing_pr=$(gh pr list --head "$branch_name" --base production --state open --json number --jq '.[0].number' 2>/dev/null || echo "")
+
+            if [ -n "$existing_pr" ]; then
+              echo "Updating PR #${existing_pr} for ${plugin_name}"
+              gh pr edit "$existing_pr" --title "Promote ${plugin_name} to production (${prod_version} → ${main_version})" --body "$pr_body"
+            else
+              echo "Creating PR for ${plugin_name}"
+              gh pr create \
+                --head "$branch_name" \
+                --base production \
+                --title "Promote ${plugin_name} to production (${prod_version} → ${main_version})" \
+                --body "$pr_body"
+            fi
+          done
