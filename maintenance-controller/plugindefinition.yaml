@@ -1,0 +1,91 @@
+# SPDX-FileCopyrightText: 2026 SAP SE or an SAP affiliate company and Greenhouse contributors
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: greenhouse.sap/v1alpha1
+kind: PluginDefinition
+metadata:
+  name: maintenance-controller
+spec:
+  version: 2.0.5
+  displayName: Maintenance Controller
+  description: Automates node maintenance tasks
+  helmChart:
+    name: maintenance-controller
+    repository: oci://keppel.eu-de-1.cloud.sap/ccloud-helm
+    version: 1.1.5
+  options:
+  - name: config
+    type: string
+    required: true
+
+  - name: deployment.extraAnnotations
+    type: map
+    default:
+      secret.reloader.stakater.com/reload: maintenance-controller-secrets
+      vpa-butler.cloud.sap/update-mode: Auto
+
+  - name: flatcar-linux-update-agent.enabled
+    type: bool
+    default: false
+
+  - name: global.clusterType
+    type: string
+    required: true
+
+  - name: global.region
+    type: string
+    required: true
+
+  - name: global.registry
+    type: string
+    required: true
+    default: ghcr.io/sapcc
+
+  - name: image.repository
+    type: string
+    required: false
+    default: sapcc/maintenance-controller
+
+  - name: image.tag
+    type: string
+    default: "2.0.2"
+
+  - name: ingress.enabled
+    type: bool
+    default: true
+
+  - name: ingress.ca
+    type: bool
+    default: false
+
+  - name: ingress.oauthProxy
+    type: bool
+    default: true
+
+  - name: limits.cpu
+    type: string
+    default: 400m
+
+  - name: limits.memory
+    type: string
+    default: 1024Mi
+
+  - name: rbac.create
+    type: bool
+    default: true
+
+  - name: rbac.serviceAccountName
+    type: string
+    default: maintenance-controller
+
+  - name: replicaCount
+    type: int
+    default: 2
+
+  - name: secrets
+    type: map
+    default:
+      SLACK_TOKEN: vault+kvv2:///secrets/shared/kube-system/slack-auth/maintenance-controller/token
+
+  - name: serviceMonitor.extraLabels
+    type: map
