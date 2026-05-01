@@ -8,7 +8,8 @@
     {
       "matchFileNames": ["**/plugindefinition.yaml"],
       "matchManagers": ["custom.regex"],
-      "groupName": "{{parentDir}} helm chart"
+      "groupName": "{{parentDir}} helm chart",
+      "commitMessageExtra": "to v{{{newVersion}}}"
     }
   ],
   "customManagers": [
