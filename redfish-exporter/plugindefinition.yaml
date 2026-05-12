@@ -4,17 +4,17 @@
 apiVersion: greenhouse.sap/v1alpha1
 kind: PluginDefinition
 metadata:
-  name: kvm-redfish-exporter
+  name: redfish-exporter
 spec:
-  version: 0.3.3
-  displayName: KVM Redfish Exporter
+  version: 0.4.0
+  displayName: Redfish Exporter
   description: Prometheus exporter for Redfish/BMC hardware monitoring. Collects power state, health, temperature, fans, PSU, memory ECC, NVMe SMART, BIOS settings, and firmware versions from Dell iDRAC and HPE iLO.
-  docMarkDownUrl: https://raw.githubusercontent.com/cobaltcore-dev/kvm-redfish-exporter/main/README.md
-  icon: https://raw.githubusercontent.com/cobaltcore-dev/kvm-redfish-exporter/main/logo.png
+  docMarkDownUrl: https://raw.githubusercontent.com/cobaltcore-dev/redfish-exporter/main/README.md
+  icon: https://raw.githubusercontent.com/cobaltcore-dev/redfish-exporter/main/logo.png
   helmChart:
-    name: kvm-redfish-exporter
-    repository: oci://ghcr.io/cobaltcore-dev/kvm-redfish-exporter/charts
-    version: 0.3.3
+    name: redfish-exporter
+    repository: oci://ghcr.io/cobaltcore-dev/redfish-exporter/charts
+    version: 0.4.0
   options:
     # --- Prometheus integration ---
     - name: serviceMonitorLabels
@@ -45,7 +45,7 @@ spec:
     - name: controllerManager.manager.image.repository
       description: Container image repository
       required: false
-      default: ghcr.io/cobaltcore-dev/kvm-redfish-exporter
+      default: ghcr.io/cobaltcore-dev/redfish-exporter
       type: string
     - name: controllerManager.manager.image.tag
       description: Container image tag
@@ -58,7 +58,7 @@ spec:
       displayName: Redfish Credentials Secret
       description: Name of the K8s Secret containing Redfish/BMC username and password.
       required: false
-      default: kvm-redfish-credentials
+      default: redfish-credentials
       type: string
     - name: kvmRedfishExporter.redfish.username
       displayName: Redfish Username
