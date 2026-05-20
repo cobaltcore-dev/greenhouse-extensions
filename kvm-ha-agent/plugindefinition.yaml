@@ -107,7 +107,7 @@ spec:
     required: false
     default: true
     type: bool
-    description: " Create Prometheus rules"
+    description: "Create Prometheus rules"
   - name: kvm-ha-agent.prometheusRules.ruleSelectors
     required: false
     type: list
