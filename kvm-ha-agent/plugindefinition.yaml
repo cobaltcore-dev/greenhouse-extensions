@@ -64,8 +64,41 @@ spec:
     description: "Initial delay in seconds before the first libvirt instance check"
   - name: kvm-ha-agent.libvirt.hypervisors
     type: list
-    required: true
     description: "List of hypervisor connection configurations (uri, type, timeouts, domain event filters)"
+    default:
+      - type: "cloudhypervisor"
+        uri: "ch:///system"
+        libvirtConnectionCheckInterval: 30
+        libvirtInstanceCheckInterval: 30
+        libvirtConnectionTimeout: 5
+        libvirtConnectionRetryInterval: 30
+        domainEventIDLifecycle: true
+        domainEventTypes:
+          - 5
+        domainEventDefinedDetailTypes: []
+        domainEventUndefinedDetailTypes: []
+        domainEventStartedDetailTypes: []
+        domainEventSuspendedDetailTypes: []
+        domainEventResumedDetailTypes: []
+        domainEventStoppedDetailTypes:
+          - 5
+        domainEventShutdownDetailTypes: []
+        domainEventPMSuspendedDetailTypes: []
+        domainEventCrashedDetailTypes: []
+        domainEventIDReboot: false
+        domainEventIDWatchdog: false
+        domainEventWatchdogActions: []
+        domainEventIDIOError: false
+        domainEventIOErrorActions: []
+        domainEventIDIOErrorReason: false
+        domainEventIOErrorReasonActions: []
+        domainEventIDControlError: false
+        domainEventIDAgentLifecycle: false
+        connectDomainEventAgentLifecycleStates: []
+        connectDomainEventAgentLifecycleReasons: []
+        domainEventIDMemoryFailure: false
+        domainMemoryFailureRecipientTypes: []
+        domainMemoryFailureActionTypes: []
   - name: kvm-ha-agent.rollingUpdate.maxUnavailable
     type: string
     default: "50%"
