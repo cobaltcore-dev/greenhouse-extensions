@@ -5,13 +5,13 @@ kind: PluginDefinition
 metadata:
   name: kvm-ha-agent
 spec:
-  version: 0.1.4
+  version: 0.1.5
   displayName: KVM HA Agent
   description: "KVM HA Agent to manage KVM hypervisor nodes within a Kubernetes environment."
   helmChart:
     name: kvm-ha-agent-umbrella
     repository: oci://keppel.eu-de-1.cloud.sap/ccloud-helm
-    version: 0.1.2
+    version: 0.1.3
   options:
   - name: global.region
     type: string
@@ -50,21 +50,74 @@ spec:
     type: int
     default: 443
     description: "Port of the KVM HA service endpoint"
+  - name: kvm-ha-agent.uptimeCheckInterval
+    type: int
+    default: 30
+    description: "Interval in seconds for checking host uptime"
+  - name: kvm-ha-agent.libvirt.libvirtInstanceCheckInterval
+    type: int
+    default: 30
+    description: "Interval in seconds for polling libvirt instance state"
+  - name: kvm-ha-agent.libvirt.libvirtInstanceCheckInitialDelay
+    type: int
+    default: 10
+    description: "Initial delay in seconds before the first libvirt instance check"
+  - name: kvm-ha-agent.libvirt.hypervisors
+    type: list
+    description: "List of hypervisor connection configurations (uri, type, timeouts, domain event filters)"
+    default:
+      - type: "cloudhypervisor"
+        uri: "ch:///system"
+        libvirtConnectionCheckInterval: 30
+        libvirtInstanceCheckInterval: 30
+        libvirtConnectionTimeout: 5
+        libvirtConnectionRetryInterval: 30
+        domainEventIDLifecycle: true
+        domainEventTypes:
+          - 5
+        domainEventDefinedDetailTypes: []
+        domainEventUndefinedDetailTypes: []
+        domainEventStartedDetailTypes: []
+        domainEventSuspendedDetailTypes: []
+        domainEventResumedDetailTypes: []
+        domainEventStoppedDetailTypes:
+          - 5
+        domainEventShutdownDetailTypes: []
+        domainEventPMSuspendedDetailTypes: []
+        domainEventCrashedDetailTypes: []
+        domainEventIDReboot: false
+        domainEventIDWatchdog: false
+        domainEventWatchdogActions: []
+        domainEventIDIOError: false
+        domainEventIOErrorActions: []
+        domainEventIDIOErrorReason: false
+        domainEventIOErrorReasonActions: []
+        domainEventIDControlError: false
+        domainEventIDAgentLifecycle: false
+        connectDomainEventAgentLifecycleStates: []
+        connectDomainEventAgentLifecycleReasons: []
+        domainEventIDMemoryFailure: false
+        domainMemoryFailureRecipientTypes: []
+        domainMemoryFailureActionTypes: []
+  - name: kvm-ha-agent.rollingUpdate.maxUnavailable
+    type: string
+    default: "50%"
+    description: "Maximum number or percentage of DaemonSet pods that can be unavailable during a rolling update"
   - name: prometheusRules.create
-    description: Create Prometheus rules
     required: false
     default: true
     type: bool
+    description: "Create Prometheus rules"
   - name: kvm-ha-agent.prometheusRules.ruleSelectors
-    description: Selector for Prometheus rules to be picked up by the Prometheus operator. List of key-value pairs.
     required: false
     type: list
+    description: "Selector for Prometheus rules to be picked up by the Prometheus operator. List of key-value pairs."
   - name: kvm-ha-agent.prometheusRules.additionalRuleLabels
-    description: Additional labels to be added every Prometheus rule. E.g support_group, service
-    required: false
     type: map
-  - name: kvm-ha-agent.dashboards.create
-    description: Create Perses dashboards
     required: false
-    default: true
+    description: "Additional labels to be added every Prometheus rule. E.g support_group, service"
+  - name: kvm-ha-agent.dashboards.create
     type: bool
+    default: true
+    required: false
+    description: "Create Perses dashboards"
