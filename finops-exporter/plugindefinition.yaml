@@ -11,7 +11,7 @@ spec:
   description: Prometheus exporter for FinOps provisioned instance metrics.
   helmChart:
     name: finops-exporter
-    repository: oci://keppel.eu-de-1.cloud.sap/cc-ia
+    repository: oci://ghcr.io/cobaltcore-dev/finops-exporter/charts
     version: 0.1.0
   options:
     - name: serviceMonitor.enabled
@@ -30,8 +30,7 @@ spec:
     - name: config.finopsUrl
       description: FinOps API endpoint URL
       type: string
-      required: false
-      default: "https://finops.tools.sap/cbr-api"
+      required: true
     - name: config.collectInterval
       description: Data collection interval
       type: string
@@ -49,7 +48,7 @@ spec:
       description: Container image repository
       type: string
       required: false
-      default: keppel.eu-de-1.cloud.sap/cc-ia/finops-exporter
+      default: ghcr.io/cobaltcore-dev/finops-exporter
     - name: image.tag
       description: Container image tag
       type: string
