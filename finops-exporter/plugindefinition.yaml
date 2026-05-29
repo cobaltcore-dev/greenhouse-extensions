@@ -1,0 +1,53 @@
+apiVersion: greenhouse.sap/v1alpha1
+kind: PluginDefinition
+metadata:
+  name: finops-exporter
+spec:
+  version: 0.1.0
+  displayName: FinOps Exporter
+  description: Prometheus exporter for FinOps provisioned instance metrics.
+  helmChart:
+    name: finops-exporter
+    repository: oci://keppel.eu-de-1.cloud.sap/cc-ia
+    version: 0.1.0
+  options:
+    - name: serviceMonitor.enabled
+      description: Enable ServiceMonitor for Prometheus scraping
+      type: bool
+      required: false
+      default: true
+    - name: serviceMonitor.labels
+      description: Extra labels for ServiceMonitor discovery
+      type: map
+      required: false
+    - name: prometheusRules.additionalRuleLabels
+      description: Labels injected into all PrometheusRules (e.g. support_group, service)
+      type: map
+      required: false
+    - name: config.finopsUrl
+      description: FinOps API endpoint URL
+      type: string
+      required: false
+      default: "https://finops.tools.sap/cbr-api"
+    - name: config.collectInterval
+      description: Data collection interval
+      type: string
+      required: false
+      default: "24h"
+    - name: secret.username
+      description: FinOps API username
+      type: secret
+      required: true
+    - name: secret.password
+      description: FinOps API password
+      type: secret
+      required: true
+    - name: image.repository
+      description: Container image repository
+      type: string
+      required: false
+      default: keppel.eu-de-1.cloud.sap/cc-ia/finops-exporter
+    - name: image.tag
+      description: Container image tag
+      type: string
+      required: false
