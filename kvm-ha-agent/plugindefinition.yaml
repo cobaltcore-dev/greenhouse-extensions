@@ -27,43 +27,54 @@ spec:
     description: "Client secret for authenticating against the KVM HA service"
   - name: kvm-ha-agent.image.repository
     type: string
+    required: false
     description: "Container image repository for the KVM HA Agent"
   - name: kvm-ha-agent.image.tag
     type: string
+    required: false
     description: "Container image tag for the KVM HA Agent"
   - name: kvm-ha-agent.image.pullPolicy
     type: string
+    required: false
     description: "Image pull policy"
   - name: kvm-ha-agent.dryrun
     type: bool
+    required: false
     default: false
     description: "Run the agent in dry-run mode without reporting to kvm-ha-service"
   - name: kvm-ha-agent.logLevel
     type: string
+    required: false
     default: info
     description: "Log verbosity level"
   - name: kvm-ha-agent.haServiceName
     type: string
+    required: false
     default: kvm-ha-service
     description: "Name of the KVM HA service endpoint"
   - name: kvm-ha-agent.haServicePort
     type: int
+    required: false
     default: 443
     description: "Port of the KVM HA service endpoint"
   - name: kvm-ha-agent.uptimeCheckInterval
     type: int
+    required: false
     default: 30
     description: "Interval in seconds for checking host uptime"
   - name: kvm-ha-agent.libvirt.libvirtInstanceCheckInterval
     type: int
+    required: false
     default: 30
     description: "Interval in seconds for polling libvirt instance state"
   - name: kvm-ha-agent.libvirt.libvirtInstanceCheckInitialDelay
     type: int
+    required: false
     default: 10
     description: "Initial delay in seconds before the first libvirt instance check"
   - name: kvm-ha-agent.libvirt.hypervisors
     type: list
+    required: false
     description: "List of hypervisor connection configurations (uri, type, timeouts, domain event filters)"
     default:
       - type: "cloudhypervisor"
@@ -101,6 +112,7 @@ spec:
         domainMemoryFailureActionTypes: []
   - name: kvm-ha-agent.rollingUpdate.maxUnavailable
     type: string
+    required: false
     default: "50%"
     description: "Maximum number or percentage of DaemonSet pods that can be unavailable during a rolling update"
   - name: prometheusRules.create
