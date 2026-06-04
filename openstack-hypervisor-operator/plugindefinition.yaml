@@ -17,10 +17,6 @@ spec:
       description: "Override the full name of the deployment."
       type: string
       default: hypervisor-operator
-    - name: controllerManager.manager.image.tag
-      description: "Container image tag for the KVM Node Agent."
-      type: string
-      default: latest
     - name: controllerManager.manager.env.osUsername
       description: "OpenStack username for the hypervisor operator."
       type: string
