@@ -20,12 +20,14 @@ spec:
 
   - name: deployment.extraAnnotations
     type: map
+    required: false
     default:
       secret.reloader.stakater.com/reload: maintenance-controller-secrets
       vpa-butler.cloud.sap/update-mode: Auto
 
   - name: flatcar-linux-update-agent.enabled
     type: bool
+    required: false
     default: false
 
   - name: global.clusterType
@@ -48,44 +50,55 @@ spec:
 
   - name: image.tag
     type: string
+    required: false
     default: "2.0.2"
 
   - name: ingress.enabled
     type: bool
+    required: false
     default: true
 
   - name: ingress.ca
     type: bool
+    required: false
     default: false
 
   - name: ingress.oauthProxy
     type: bool
+    required: false
     default: true
 
   - name: limits.cpu
     type: string
+    required: false
     default: 400m
 
   - name: limits.memory
     type: string
+    required: false
     default: 1024Mi
 
   - name: rbac.create
     type: bool
+    required: false
     default: true
 
   - name: rbac.serviceAccountName
     type: string
+    required: false
     default: maintenance-controller
 
   - name: replicaCount
     type: int
+    required: false
     default: 2
 
   - name: secrets
     type: map
+    required: false
     default:
       SLACK_TOKEN: vault+kvv2:///secrets/shared/kube-system/slack-auth/maintenance-controller/token
 
   - name: serviceMonitor.extraLabels
     type: map
+    required: false
