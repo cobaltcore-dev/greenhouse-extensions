@@ -16,21 +16,26 @@ spec:
     - name: controllerManager.manager.env.libvirtDefaultUri
       description: "Libvirt Default Uri"
       type: string
+      required: false
       default: "ch:///system"
     - name: controllerManager.manager.env.issuerName
       description: "Issuer name for the KVM Node Agent certificates."
       type: string
+      required: false
       default: nova-hypervisor-agents-ca-issuer
     - name: controllerManager.manager.env.nodeLabelFieldPath
       description: "Field path to identify the node label for KVM nodes."
       type: string
+      required: false
       default: "metadata.labels['kubernetes.metal.cloud.sap/name']"
     - name: controllerManager.manager.image.tag
       description: "Container image tag for the KVM Node Agent."
       type: string
+      required: false
       default: latest
     - name: controllerManager.nodeSelector
       description: "NodeSelector for the KVM Node Agent."
       type: map
+      required: false
       default:
         "nova.openstack.cloud.sap/virt-driver": "libvirt-ch"
