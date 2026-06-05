@@ -16,20 +16,25 @@ spec:
     - name: fullnameOverride
       description: "Override the full name of the deployment."
       type: string
+      required: false
       default: hypervisor-operator
     - name: controllerManager.manager.env.osUsername
       description: "OpenStack username for the hypervisor operator."
       type: string
+      required: false
       default: nova
     - name: controllerManager.manager.env.osUserDomainName
       description: "OpenStack user domain name for the hypervisor operator."
       type: string
+      required: false
       default: Default
     - name: controllerManager.manager.env.osProjectName
       description: "OpenStack project name for the hypervisor operator."
       type: string
+      required: false
       default: service
     - name: controllerManager.manager.env.osProjectDomainName
       description: "OpenStack project domain name for the hypervisor operator."
       type: string
+      required: false
       default: Default
