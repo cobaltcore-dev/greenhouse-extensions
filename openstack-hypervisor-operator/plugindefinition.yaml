@@ -21,6 +21,7 @@ spec:
     - name: controllerManager.manager.image.tag
       description: "Container image tag for the hypervisor operator."
       type: string
+      required: false
       default: sha-41d66420922eca5fa7319ba8a307e7ac181ea6f2
     - name: controllerManager.manager.env.osUsername
       description: "OpenStack username for the hypervisor operator."
