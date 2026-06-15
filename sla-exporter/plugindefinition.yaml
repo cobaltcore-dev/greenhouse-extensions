@@ -15,7 +15,7 @@ spec:
     for SLA measurement. Includes alerting rules and a Perses dashboard.
   helmChart:
     name: sla-exporter
-    repository: oci://keppel.eu-de-1.cloud.sap/cc-ia/sla-exporter/charts
+    repository: oci://ghcr.io/cobaltcore-dev/sla-exporter/charts
     version: 0.3.24
   options:
     - name: controllerManager.manager.image.tag
