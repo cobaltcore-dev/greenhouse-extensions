@@ -56,7 +56,8 @@ spec:
 
     - name: slaAgent.neutron.endpoint
       type: string
-      required: true
+      required: false
+      default: ""
       description: "Neutron API endpoint URL for port discovery."
 
     - name: slaAgent.neutron.existingSecret
