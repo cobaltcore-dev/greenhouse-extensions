@@ -6,7 +6,7 @@ kind: PluginDefinition
 metadata:
   name: sla-exporter
 spec:
-  version: 0.3.24
+  version: 0.3.25
   displayName: "CobaltCore SLA Agent"
   description: >-
     ARP-based VM dataplane availability probe for CobaltCore compute
@@ -16,12 +16,12 @@ spec:
   helmChart:
     name: sla-exporter
     repository: oci://ghcr.io/cobaltcore-dev/sla-exporter/charts
-    version: 0.3.24
+    version: 0.3.25
   options:
     - name: controllerManager.manager.image.tag
       type: string
       required: false
-      default: "0.3.30.2"
+      default: "0.3.30.3"
       description: "Container image tag for the SLA probe agent."
 
     - name: slaAgent.probeIntervalSeconds
@@ -61,8 +61,33 @@ spec:
 
     - name: slaAgent.neutron.existingSecret
       type: secret
-      required: true
-      description: "Existing Secret containing the Neutron authentication token."
+      required: false
+      description: "Existing Secret containing Neutron credentials (alternative to direct username/password)."
+
+    - name: slaAgent.neutron.username
+      type: string
+      required: false
+      description: "Neutron service username (supports vault+kvv2:// references)."
+
+    - name: slaAgent.neutron.password
+      type: string
+      required: false
+      description: "Neutron service password (supports vault+kvv2:// references)."
+
+    - name: slaAgent.nova.endpoint
+      type: string
+      required: false
+      description: "Nova API endpoint URL for VM state enrichment."
+
+    - name: slaAgent.nova.username
+      type: string
+      required: false
+      description: "Nova service username (supports vault+kvv2:// references)."
+
+    - name: slaAgent.nova.password
+      type: string
+      required: false
+      description: "Nova service password (supports vault+kvv2:// references)."
 
     - name: prometheusRules.create
       type: bool
