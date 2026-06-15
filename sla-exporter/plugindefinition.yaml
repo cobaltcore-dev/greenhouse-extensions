@@ -1,0 +1,82 @@
+# SPDX-FileCopyrightText: 2025 SAP SE or an SAP affiliate company and sla-exporter contributors
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: greenhouse.sap/v1alpha1
+kind: PluginDefinition
+metadata:
+  name: sla-exporter
+spec:
+  version: 0.3.24
+  displayName: "CobaltCore SLA Agent"
+  description: >-
+    ARP-based VM dataplane availability probe for CobaltCore compute
+    infrastructure. Runs as a DaemonSet on compute nodes, discovers VM
+    ports via Neutron, sends ARP probes, and exposes Prometheus metrics
+    for SLA measurement. Includes alerting rules and a Perses dashboard.
+  helmChart:
+    name: sla-exporter
+    repository: oci://keppel.eu-de-1.cloud.sap/cc-ia/sla-exporter/charts
+    version: 0.3.24
+  options:
+    - name: controllerManager.manager.image.tag
+      type: string
+      required: false
+      default: "0.3.30.2"
+      description: "Container image tag for the SLA probe agent."
+
+    - name: slaAgent.probeIntervalSeconds
+      type: int
+      required: false
+      default: 30
+      description: "Interval in seconds between ARP probe cycles."
+
+    - name: slaAgent.probeTimeoutMs
+      type: int
+      required: false
+      default: 1000
+      description: "Timeout in milliseconds for each ARP probe response."
+
+    - name: slaAgent.consecutiveFailuresThreshold
+      type: int
+      required: false
+      default: 3
+      description: "Number of consecutive ARP probe failures before marking a VM as unavailable."
+
+    - name: slaAgent.discoveryIntervalSeconds
+      type: int
+      required: false
+      default: 60
+      description: "Interval in seconds between Neutron port discovery syncs."
+
+    - name: slaAgent.networkInterface
+      type: string
+      required: false
+      default: "br-provider"
+      description: "Host network interface to use for sending ARP probes."
+
+    - name: slaAgent.neutron.endpoint
+      type: string
+      required: true
+      description: "Neutron API endpoint URL for port discovery."
+
+    - name: slaAgent.neutron.existingSecret
+      type: secret
+      required: true
+      description: "Existing Secret containing the Neutron authentication token."
+
+    - name: prometheusRules.create
+      type: bool
+      required: false
+      default: true
+      description: "Deploy PrometheusRule alerting rules for agent health and VM availability."
+
+    - name: prometheusRules.additionalRuleLabels
+      type: map
+      required: false
+      description: "Additional labels to add to all alerting rules (e.g. support_group, service)."
+
+    - name: dashboards.create
+      type: bool
+      required: false
+      default: true
+      description: "Deploy Perses dashboard ConfigMaps for agent observability."
