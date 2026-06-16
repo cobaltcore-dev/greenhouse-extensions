@@ -6,7 +6,7 @@ kind: PluginDefinition
 metadata:
   name: sla-exporter
 spec:
-  version: 0.3.30
+  version: 0.3.25
   displayName: "CobaltCore SLA Agent"
   description: >-
     ARP-based VM dataplane availability probe for CobaltCore compute
@@ -16,12 +16,12 @@ spec:
   helmChart:
     name: sla-exporter
     repository: oci://ghcr.io/cobaltcore-dev/sla-exporter/charts
-    version: 0.3.30
+    version: 0.3.25
   options:
     - name: controllerManager.manager.image.tag
       type: string
       required: false
-      default: "0.3.30.8"
+      default: "0.3.30.3"
       description: "Container image tag for the SLA probe agent."
 
     - name: slaAgent.probeIntervalSeconds
@@ -53,6 +53,12 @@ spec:
       required: false
       default: "br-provider"
       description: "Host network interface to use for sending ARP probes."
+
+    - name: slaAgent.probeIfacePrefix
+      type: string
+      required: false
+      default: "brq"
+      description: "Prefix of bridge interfaces to probe ARP on (e.g. brq for Linux bridges)."
 
     - name: slaAgent.neutron.endpoint
       type: string
