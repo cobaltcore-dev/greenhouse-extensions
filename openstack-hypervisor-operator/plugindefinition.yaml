@@ -5,24 +5,19 @@ kind: PluginDefinition
 metadata:
   name: openstack-hypervisor-operator
 spec:
-  version: 0.2.9
+  version: 1.1.0
   displayName: OpenStack Hypervisor Operator
   description: "Manages OpenStack hypervisor nodes within a Kubernetes environment."
   helmChart:
     name: openstack-hypervisor-operator
     repository: oci://ghcr.io/cobaltcore-dev/charts
-    version: 0.2.9
+    version: 1.1.0
   options:
     - name: fullnameOverride
       description: "Override the full name of the deployment."
       type: string
       required: false
       default: hypervisor-operator
-    - name: controllerManager.manager.image.tag
-      description: "Container image tag for the hypervisor operator."
-      type: string
-      required: false
-      default: sha-41d66420922eca5fa7319ba8a307e7ac181ea6f2
     - name: controllerManager.manager.env.osUsername
       description: "OpenStack username for the hypervisor operator."
       type: string
