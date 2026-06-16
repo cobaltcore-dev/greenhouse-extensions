@@ -6,7 +6,7 @@ kind: PluginDefinition
 metadata:
   name: sla-exporter
 spec:
-  version: 0.3.34
+  version: 0.3.35
   displayName: "CobaltCore SLA Agent"
   description: >-
     ARP-based VM dataplane availability probe for CobaltCore compute
@@ -16,12 +16,12 @@ spec:
   helmChart:
     name: sla-exporter
     repository: oci://keppel.eu-de-1.cloud.sap/cc-ia/charts
-    version: 0.3.34
+    version: 0.3.35
   options:
     - name: controllerManager.manager.image.tag
       type: string
       required: false
-      default: "0.3.30.12"
+      default: "0.3.30.13"
       description: "Container image tag for the SLA probe agent."
 
     - name: slaAgent.probeIntervalSeconds
