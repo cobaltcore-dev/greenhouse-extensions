@@ -1,0 +1,53 @@
+# SPDX-FileCopyrightText: 2026 SAP SE or an SAP affiliate company and cobaltcore-dev contributors
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: greenhouse.sap/v1alpha1
+kind: PluginDefinition
+metadata:
+  name: sciai-place
+spec:
+  version: "0.2.0"
+  displayName: SCI AI Place
+  description: >-
+    AI Integration Marketplace — discover, manage, and control access to
+    AI integrations (MCP servers, agents, LLMs, tools) with CRD-based
+    discovery, smart LLM proxy, and per-user RBAC.
+  helmChart:
+    name: sciai-place
+    repository: oci://keppel.qa-de-1.cloud.sap/cc-ia/charts
+    version: "0.2.0"
+  uiApplication:
+    name: sciai-place
+    url: "https://sciai-place.qa-de-1.cloud.sap/index.js"
+    version: "0.2.0"
+  options:
+    - name: image.repository
+      description: Backend container image
+      required: false
+      default: "keppel.qa-de-1.cloud.sap/cc-ia/sciai-place"
+      type: string
+    - name: image.tag
+      description: Backend image tag
+      required: false
+      default: "0.2.0"
+      type: string
+    - name: uiImage.repository
+      description: UI container image
+      required: false
+      default: "keppel.qa-de-1.cloud.sap/cc-ia/sciai-place-ui"
+      type: string
+    - name: uiImage.tag
+      description: UI image tag
+      required: false
+      default: "0.2.0"
+      type: string
+    - name: host
+      description: Ingress hostname (empty = no ingress)
+      required: false
+      default: ""
+      type: string
+    - name: replicaCount
+      description: Number of backend replicas
+      required: false
+      default: 1
+      type: int
