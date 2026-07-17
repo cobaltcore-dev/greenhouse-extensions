@@ -6,13 +6,13 @@ kind: PluginDefinition
 metadata:
   name: maintenance-controller
 spec:
-  version: 2.0.5
+  version: 2.0.6
   displayName: Maintenance Controller
   description: Automates node maintenance tasks
   helmChart:
     name: maintenance-controller
     repository: oci://keppel.eu-de-1.cloud.sap/ccloud-helm
-    version: 1.1.5
+    version: 1.1.7
   options:
   - name: config
     type: string
@@ -51,7 +51,7 @@ spec:
   - name: image.tag
     type: string
     required: false
-    default: "2.0.2"
+    default: "2.1.0"
 
   - name: ingress.enabled
     type: bool
