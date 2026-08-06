@@ -22,7 +22,7 @@ spec:
       type: map
       required: true
     - name: prometheusRules.create
-      description: Create Prometheus rules
+      description: Create Prometheus rules.
       required: false
       default: true
       type: bool
@@ -31,43 +31,51 @@ spec:
       required: false
       type: list
     - name: prometheusRules.additionalRuleLabels
-      description: Additional labels to be added every Prometheus rule. E.g support_group, service
+      description: Additional labels to add to every Prometheus rule. E.g., support_group, service.
       required: false
       type: map
     - name: dashboards.create
-      description: Create Perses dashboards
+      description: Create Perses dashboards.
       required: false
       default: true
       type: bool
     - name: kvmExporter.image.repository
-      description: KVM Exporter container image repository
+      description: KVM Exporter container image repository.
       required: false
       default: ghcr.io/cobaltcore-dev/kvm-exporter/kvm-exporter
       type: string
     - name: kvmExporter.image.tag
-      description: KVM Exporter container image tag
+      description: KVM Exporter container image tag.
       required: false
       default: latest
       type: string
     - name: libvirt.uri
-      description: Driver URI for libvirt connection string
+      description: Driver URI for the libvirt connection string.
       required: false
       default: ch:///system?socket=/run/libvirt/libvirt-sock-ro
       type: string
     - name: libvirt.socketPath
-      description: Cloud Hypervisor domain data directory (/var/run is a symlink to /run)
+      description: Cloud Hypervisor domain data directory (/var/run is a symlink to /run).
       required: false
       default: /run/libvirt
       type: string
     - name: libvirt.configPath
-      description: Host libvirt.conf path
+      description: Host libvirt.conf path.
       required: false
       type: string
     - name: libvirt.mountPaths
-      description: Mount paths to expose to the exporter
+      description: Mount paths to expose to the exporter.
       required: false
       type: list
     - name: tolerations
       description: Tolerations to apply to the kvm-exporter DaemonSet pods.
       required: false
       type: list
+    - name: nodeSelector
+      description: Node selector to apply to the kvm-exporter DaemonSet pods.
+      required: false
+      type: map
+    - name: affinity
+      description: Affinity rules to apply to the kvm-exporter DaemonSet pods.
+      required: false
+      type: map
