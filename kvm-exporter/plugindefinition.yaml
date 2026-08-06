@@ -71,3 +71,11 @@ spec:
       description: Tolerations to apply to the kvm-exporter DaemonSet pods.
       required: false
       type: list
+    - name: nodeSelector
+      description: Node selector to apply to the kvm-exporter DaemonSet pods.
+      required: false
+      type: map
+    - name: affinity
+      description: Affinity rules to apply to the kvm-exporter DaemonSet pods.
+      required: false
+      type: map
