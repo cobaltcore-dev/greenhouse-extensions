@@ -1,0 +1,86 @@
+# SPDX-FileCopyrightText: 2026 cobaltcore-dev contributors
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: greenhouse.sap/v1alpha1
+kind: PluginDefinition
+metadata:
+  name: gnmi-exporter
+spec:
+  version: 0.0.0-ad39008
+  displayName: gNMI Exporter
+  description: Kubernetes operator for automating the monitoring of network devices via gNMI. Manages DeviceMonitor custom resources to create per-device StatefulSets and ServiceMonitors.
+  docMarkDownUrl: https://raw.githubusercontent.com/cobaltcore-dev/gnmi-exporter/main/README.md
+  helmChart:
+    name: gnmi-exporter
+    repository: oci://ghcr.io/cobaltcore-dev/charts
+    version: 0.0.0-ad39008
+  options:
+    # --- Image ---
+    - name: manager.image.repository
+      description: Container image repository
+      required: false
+      default: ghcr.io/cobaltcore-dev/gnmi-exporter
+      type: string
+    - name: manager.image.tag
+      description: Container image tag
+      required: false
+      type: string
+
+    # --- CRD ---
+    - name: crd.enable
+      description: Install CRDs with the chart
+      required: false
+      default: true
+      type: bool
+    - name: crd.keep
+      description: Keep CRDs when uninstalling
+      required: false
+      default: true
+      type: bool
+
+    # --- RBAC ---
+    - name: rbac.namespaced
+      description: Use namespaced Role/RoleBinding instead of cluster-wide
+      required: false
+      default: false
+      type: bool
+
+    # --- Metrics ---
+    - name: metrics.enable
+      description: Enable metrics endpoint
+      required: false
+      default: true
+      type: bool
+    - name: metrics.secure
+      description: Enable secure HTTPS metrics with certs/auth
+      required: false
+      default: true
+      type: bool
+
+    # --- Prometheus ---
+    - name: prometheus.enable
+      description: Create Prometheus ServiceMonitor for metrics scraping
+      required: false
+      default: false
+      type: bool
+
+    # --- Cert-Manager ---
+    - name: certManager.enable
+      description: Enable cert-manager integration for TLS certificates
+      required: false
+      default: false
+      type: bool
+
+    # --- Scheduling ---
+    - name: manager.tolerations
+      description: Tolerations for the manager Deployment pods
+      required: false
+      type: list
+    - name: manager.nodeSelector
+      description: Node selector for the manager Deployment pods
+      required: false
+      type: map
+    - name: manager.affinity
+      description: Affinity rules for the manager Deployment pods
+      required: false
+      type: map
