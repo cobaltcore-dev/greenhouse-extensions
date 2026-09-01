@@ -1,0 +1,215 @@
+# SPDX-FileCopyrightText: 2025 SAP SE or an SAP affiliate company and sla-exporter contributors
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: greenhouse.sap/v1alpha1
+kind: PluginDefinition
+metadata:
+  name: sla-exporter
+spec:
+  version: 0.3.41
+  displayName: "CobaltCore SLA Agent"
+  description: >-
+    ARP-based VM dataplane availability probe for CobaltCore compute
+    infrastructure. Runs as a DaemonSet on compute nodes, discovers VM
+    ports via Neutron, sends ARP probes, and exposes Prometheus metrics
+    for SLA measurement. Includes alerting rules and a Perses dashboard.
+  helmChart:
+    name: sla-exporter
+    repository: oci://ghcr.io/cobaltcore-dev/sla-exporter/charts
+    version: 0.3.41
+  options:
+    - name: controllerManager.manager.image.tag
+      type: string
+      required: false
+      default: "0.4.0"
+      description: "Container image tag for the SLA probe agent."
+
+    - name: slaAgent.probeIntervalSeconds
+      type: int
+      required: false
+      default: 30
+      description: "Interval in seconds between ARP probe cycles."
+
+    - name: slaAgent.probeTimeoutMs
+      type: int
+      required: false
+      default: 1000
+      description: "Timeout in milliseconds for each ARP probe response."
+
+    - name: slaAgent.consecutiveFailuresThreshold
+      type: int
+      required: false
+      default: 3
+      description: "Number of consecutive ARP probe failures before marking a VM as unavailable."
+
+    - name: slaAgent.discoveryIntervalSeconds
+      type: int
+      required: false
+      default: 60
+      description: "Interval in seconds between Neutron port discovery syncs."
+
+    - name: slaAgent.networkInterface
+      type: string
+      required: false
+      default: "br-provider"
+      description: "Host network interface to use for sending ARP probes."
+
+    - name: slaAgent.probeIfacePrefix
+      type: string
+      required: false
+      default: "brq"
+      description: "Prefix of bridge interfaces to probe ARP on (e.g. brq for Linux bridges)."
+
+    - name: slaAgent.neutron.endpoint
+      type: string
+      required: false
+      default: ""
+      description: "Neutron API endpoint URL for port discovery."
+
+    - name: slaAgent.neutron.username
+      type: string
+      required: false
+      description: "Neutron service username (supports vault+kvv2:// references)."
+
+    - name: slaAgent.neutron.password
+      type: string
+      required: false
+      description: "Neutron service password (supports vault+kvv2:// references)."
+
+    - name: slaAgent.neutron.keystoneAuth.authURL
+      type: string
+      required: false
+      default: "https://identity-3.qa-de-1.cloud.sap/v3"
+      description: "Keystone auth URL for Neutron authentication."
+
+    - name: slaAgent.neutron.keystoneAuth.domainName
+      type: string
+      required: false
+      default: "Default"
+      description: "Keystone user domain name."
+
+    - name: slaAgent.neutron.keystoneAuth.projectName
+      type: string
+      required: false
+      default: "service"
+      description: "Keystone project name."
+
+    - name: slaAgent.neutron.keystoneAuth.projectDomain
+      type: string
+      required: false
+      default: "Default"
+      description: "Keystone project domain name."
+
+    - name: slaAgent.nova.endpoint
+      type: string
+      required: false
+      description: "Nova API endpoint URL for VM state enrichment."
+
+    - name: slaAgent.nova.username
+      type: string
+      required: false
+      description: "Nova service username (supports vault+kvv2:// references)."
+
+    - name: slaAgent.nova.password
+      type: string
+      required: false
+      description: "Nova service password (supports vault+kvv2:// references)."
+
+    - name: prometheusRules.create
+      type: bool
+      required: false
+      default: true
+      description: "Deploy PrometheusRule alerting rules for agent health and VM availability."
+
+    - name: prometheusRules.additionalRuleLabels
+      type: map
+      required: false
+      description: "Additional labels to add to all alerting rules (e.g. support_group, service)."
+
+    - name: controller.enabled
+      type: bool
+      required: false
+      default: true
+      description: "Enable the central controller (active/standby StatefulSet)."
+
+    - name: controller.availabilityZone
+      type: string
+      required: false
+      default: ""
+      description: "Availability zone for the controller (e.g. qa-de-1b)."
+
+    - name: controller.nodeSelector
+      type: string
+      required: false
+      default: "nova.openstack.cloud.sap/virt-driver=libvirt-ch"
+      description: "Node selector label for controller to identify managed nodes."
+
+    - name: controller.replicas
+      type: int
+      required: false
+      default: 2
+      description: "Number of controller replicas (active/standby)."
+
+    - name: controller.pollIntervalSeconds
+      type: int
+      required: false
+      default: 60
+      description: "Interval in seconds between controller Nova poll cycles."
+
+    - name: controller.agentMissingThresholdSeconds
+      type: int
+      required: false
+      default: 300
+      description: "Seconds before an agent is considered missing by the controller."
+
+    - name: slaAgent.logLevel
+      type: string
+      required: false
+      default: "info"
+      description: "Log level for the agent (debug, info, warn, error)."
+
+    - name: slaAgent.chDir
+      type: string
+      required: false
+      default: "/var/run/libvirt/ch"
+      description: "Cloud-hypervisor socket directory for VM state detection."
+
+    - name: slaAgent.nova.domainName
+      type: string
+      required: false
+      default: "Default"
+      description: "Nova OpenStack user domain name."
+
+    - name: slaAgent.nova.projectName
+      type: string
+      required: false
+      default: "service"
+      description: "Nova OpenStack project name."
+
+    - name: slaAgent.nova.projectDomain
+      type: string
+      required: false
+      default: "Default"
+      description: "Nova OpenStack project domain name."
+
+    - name: slaAgent.cinder.endpoint
+      type: string
+      required: false
+      default: ""
+      description: "Cinder API endpoint URL."
+
+    - name: slaAgent.cinder.existingSecret
+      type: secret
+      required: false
+      description: "Existing Secret containing Cinder credentials."
+
+    - name: tolerations
+      type: list
+      required: false
+      description: "Pod tolerations for the DaemonSet."
+
+    - name: serviceMonitor.create
+      type: bool
+      required: false
+      default: true
+      description: "Create a ServiceMonitor for Prometheus scraping."
